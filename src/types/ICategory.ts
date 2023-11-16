@@ -1,7 +1,7 @@
-export interface Category {
+export interface ICategory {
     id: number,
     name: string,
     slug: string,
     index: boolean,
-    children: Array<Category> | null
+    children: Array<ICategory> | null
 }

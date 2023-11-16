@@ -2,17 +2,23 @@ import { useEffect } from 'react';
 import styles from './styles.module.scss';
 import { RouterProvider } from "react-router-dom";
 import router from '@/pages/router';
-import { fetchCategories } from '@/features/categorySlice';
+import { fetchCategories, selectCategories } from '@/features/categorySlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/storeHooks';
+import { RootState } from '../stores/rootStore';
 
 export const App = () => {
-  const categories = useAppSelector((state) => state.categories)
+
+  const categories = useAppSelector((state: RootState) =>
+    selectCategories(state)
+  )
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchCategories);
-    console.log(categories);
-  }, [dispatch, categories])
+    if (categories.length === 0) {
+      dispatch(fetchCategories())
+    }
+  }, [categories, dispatch])
 
   return (
     <div className={ styles.main }>
